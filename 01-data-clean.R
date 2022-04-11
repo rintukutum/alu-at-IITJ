@@ -1,4 +1,7 @@
 #' ref https://ggplot2-book.org/index.html
+#' 
+#' ref https://jokergoo.github.io/circlize_book/book/
+#' 
 rm(list=ls())
 datasets <- list.files(path = 'data/', pattern = 'DATASET', full.names = TRUE)
 
@@ -70,4 +73,11 @@ dev.off()
 
 prop.test(alu_freq, non_alu_freq)$p.value
 
+xx <- data.frame(alu_freq,non_alu_freq)
+colnames(xx) <- c('Alu MEF2C','Non Alu MEF2C')
+xx$genome.feature <- rownames(xx)
 
+xx_m <- reshape2::melt(xx)
+colnames(xx_m)[1:2] <- c('to', 'from')
+
+chordDiagram(xx_m)
